@@ -1,0 +1,393 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Leandro Lino - API",
+    "description": "Coodesh Challenge API",
+    "termsOfService": "",
+    "license": {
+      "name": "",
+      "url": ""
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/articles/": {
+      "post": {
+        "description": "Create a new article",
+        "operationId": "createArticle",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Articles"
+              },
+              "example": {
+                "id": "INT",
+                "title": "STRING",
+                "url": "STRING",
+                "imageUrl": "STRING",
+                "newsSite": "STRING",
+                "summary": "STRING",
+                "publishedAt": "STRING",
+                "updatedAt": "STRING",
+                "featured": "BOOLEAN",
+                "launches": "ARRAY",
+                "events": "ARRAY"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "The article has been created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Articles"
+                },
+                "example": {
+                  "example": {
+                    "id": "INT",
+                    "title": "STRING",
+                    "url": "STRING",
+                    "imageUrl": "STRING",
+                    "newsSite": "STRING",
+                    "summary": "STRING",
+                    "publishedAt": "STRING",
+                    "updatedAt": "STRING",
+                    "featured": "BOOLEAN",
+                    "launches": "ARRAY",
+                    "events": "ARRAY"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The id has been in use",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Articles"
+                },
+                "example": {
+                  "message": "Id in use",
+                  "code": 403,
+                  "error": "Has other article with this id"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/articles/population": {
+      "post": {
+        "description": "Population the database",
+        "operationId": "populationDatabase",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Articles"
+              },
+              "example": "No Body"
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Has been populated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Articles"
+                },
+                "example": {
+                  "OK": "All in database",
+                  "code": 200
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "description": "Get the message",
+        "operationId": "getMessage",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The message information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Articles"
+                },
+                "example": "Back-end Challenge 2021 🏅 - Space Flight News"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/articles/{id}": {
+      "get": {
+        "description": "Get a article",
+        "operationId": "getArticle",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The article information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Articles"
+                },
+                "example": {
+                  "id": "INT",
+                  "title": "STRING",
+                  "url": "STRING",
+                  "imageUrl": "STRING",
+                  "newsSite": "STRING",
+                  "summary": "STRING",
+                  "publishedAt": "STRING",
+                  "updatedAt": "STRING",
+                  "featured": "BOOLEAN",
+                  "launches": "ARRAY",
+                  "events": "ARRAY"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The article information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Articles"
+                },
+                "example": {
+                  "message": "Not found",
+                  "code": 404,
+                  "error": "Not has possible find this article"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/articles": {
+      "get": {
+        "description": "Get articles",
+        "operationId": "getArticles",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "header",
+            "required": true
+          },
+          {
+            "name": "start",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The article information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Articles"
+                },
+                "example": ["OBJECT", "OBJECT", "..."]
+              }
+            }
+          },
+          "400": {
+            "description": "The article information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Articles"
+                },
+                "example": {
+                  "message": "Need some parameter",
+                  "code": 400,
+                  "error": "It is necessary to pass some id or parameter"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/articles/id": {
+      "delete": {
+        "description": "Delete a article",
+        "operationId": "deleteArticle",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The article has been removed",
+            "content": {
+              "application/json": {
+                "example": {}
+              }
+            }
+          },
+          "404": {
+            "description": "The article has not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Not found",
+                  "code": 404,
+                  "error": "Not has possible find this article"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/articles/:id": {
+      "put": {
+        "description": "Update a article",
+        "operationId": "updateArticle",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Articles"
+              },
+              "example": {
+                "id": "INT",
+                "title": "STRING",
+                "url": "STRING",
+                "imageUrl": "STRING",
+                "newsSite": "STRING",
+                "summary": "STRING",
+                "publishedAt": "STRING",
+                "updatedAt": "STRING",
+                "featured": "BOOLEAN",
+                "launches": "ARRAY",
+                "events": "ARRAY"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The article has been updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Articles"
+                },
+                "example": {
+                  "id": "INT",
+                  "title": "STRING",
+                  "url": "STRING",
+                  "imageUrl": "STRING",
+                  "newsSite": "STRING",
+                  "summary": "STRING",
+                  "publishedAt": "STRING",
+                  "updatedAt": "STRING",
+                  "featured": "BOOLEAN",
+                  "launches": "ARRAY",
+                  "events": "ARRAY"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The article has not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Not found",
+                  "code": 404,
+                  "error": "Not has possible find this article"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Articles": {
+        "id": {
+          "type": "number",
+          "example": 9999
+        },
+        "featured": {
+          "type": "boolean",
+          "example": false
+        },
+        "title": {
+          "type": "string",
+          "example": "NASA inspector general says SLS costs are “unsustainable”"
+        },
+        "url": {
+          "type": "string",
+          "example": "https://arstechnica.com/science/2022/03/nasa-inspector-general-says-sls-costs-are-unsustainable/"
+        },
+        "imageUrl": {
+          "type": "string",
+          "example": "https://cdn.arstechnica.net/wp-content/uploads/2022/03/51821402680_ddb9b63c7a_k.jpg"
+        },
+        "newsSite": {
+          "type": "string",
+          "example": "Arstechnica"
+        },
+        "summary": {
+          "type": "string",
+          "example": "Someone finally said the quiet part out loud."
+        },
+        "publishedAt": {
+          "type": "string",
+          "example": "2022-03-01T20:03:14.000Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2022-03-01T20:13:54.135Z"
+        }
+      },
+
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "number"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
