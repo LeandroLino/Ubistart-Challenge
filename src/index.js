@@ -11,7 +11,7 @@ app.use(bodyParse.urlencoded({ extended: false }));
 
 require("./controlles/userControlles")(app);
 require("./controlles/todoControlles")(app);
-app.listen(3002, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log("Server running in https://localhost:3002/");
 });
 
