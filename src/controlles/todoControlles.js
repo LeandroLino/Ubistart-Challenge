@@ -102,20 +102,23 @@ router.get("/list", async (req, res) => {
       { skip: start, limit: limit }
     );
 
-    const list = todo.map((value, index) => {
+    const list = todo.map(async (value, index) => {
       const date = value.deadline.substring(0, 10);
       const hours = value.deadline.substring(11, 19);
+      const currentUser = await User.findOne({
+        _id: value.user.toString(),
+      }).select("email");
       if (!(date > currentDate)) {
         if (!(hours > currentHours)) {
-          return { ...value._doc, late: true };
+          return { ...value._doc, late: true, user: currentUser };
         }
       }
-      return value;
+      return { ...value._doc, user: currentUser };
     });
     if (list.length > 0) {
-      res.send({ list, count: length });
+      res.send({ tasks: await Promise.all(list), count: length });
     } else {
-      res.send({ list: [], count: 0 });
+      res.send({ tasks: [], count: 0 });
     }
     return;
   } catch (err) {
