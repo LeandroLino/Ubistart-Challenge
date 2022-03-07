@@ -18,6 +18,7 @@ router.post("/create", async (req, res) => {
     id.length > 0 ? (req.body.id = id.slice(-1)[0].id + 1) : (req.body.id = 0);
     const response = await Todo.create({ ...req.body, user: user });
     res.status(201).send({ response });
+    return;
   } catch (err) {
     return res.send(err);
   }
@@ -33,6 +34,7 @@ router.put("/finish/:id", async (req, res) => {
     const response = await Todo.findOneAndUpdate({ id }, currentTime);
     response.save();
     res.send({ ...response._doc, ...currentTime });
+    return;
   } catch (err) {
     return res.send(err);
   }
@@ -56,6 +58,7 @@ router.put("/edit/:id", async (req, res) => {
     const response = await Todo.findOneAndUpdate({ id }, req.body);
     response.save();
     res.send({ ...response._doc, ...req.body });
+    return;
   } catch (err) {
     return res.send(err);
   }
@@ -114,6 +117,7 @@ router.get("/list", async (req, res) => {
     } else {
       res.send({ list: [], count: 0 });
     }
+    return;
   } catch (err) {
     return res.send(err);
   }

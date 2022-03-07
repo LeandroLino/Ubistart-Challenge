@@ -40,6 +40,7 @@ router.post("/register", async (req, res) => {
     res
       .status(201)
       .send({ response, token: createHashToken({ id: response.id }) });
+    return;
   } catch (err) {
     return res.send(err);
   }
@@ -54,6 +55,7 @@ router.post("/login", async (req, res) => {
         code: 404,
         message: "User not found",
       });
+      return;
     }
 
     if (!(await bcrypt.compare(password, user.password))) {
@@ -61,6 +63,7 @@ router.post("/login", async (req, res) => {
         code: 403,
         message: "invalid credentials",
       });
+      return;
     }
 
     user.password = undefined;
@@ -70,6 +73,7 @@ router.post("/login", async (req, res) => {
       user,
       token: createHashToken({ id: user.id }),
     });
+    return;
   } catch (err) {
     return res.send({ err: err.name });
   }
