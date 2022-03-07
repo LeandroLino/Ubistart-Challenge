@@ -11,8 +11,13 @@ app.use(bodyParse.urlencoded({ extended: false }));
 
 require("./controlles/userControlles")(app);
 require("./controlles/todoControlles")(app);
-app.listen(process.env.PORT || 3000, () => {
-  console.log("Server running in https://localhost:3002/");
+
+app.listen(process.env.PORT || 3000, function () {
+  console.log(
+    "Express server listening on port %d in %s mode",
+    this.address().port,
+    app.settings.env
+  );
 });
 
 module.exports = app;
