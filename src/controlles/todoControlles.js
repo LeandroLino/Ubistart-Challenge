@@ -63,11 +63,26 @@ router.put("/edit/:id", async (req, res) => {
     return res.send(err);
   }
 });
+const ListLated = async (value) => {
+  const currentDate = new Date().toISOString().substring(0, 10);
+  const currentHours = new Date().toISOString().substring(11, 19);
 
+  const date = value.deadline.substring(0, 10);
+  const hours = value.deadline.substring(11, 19);
+  const currentUser = await User.findOne({
+    _id: value.user.toString(),
+  }).select("email");
+  if (date < currentDate) {
+    return { ...value._doc, late: true, user: currentUser };
+  } else if (date == currentDate) {
+    if (hours < currentHours) {
+      return { ...value._doc, late: true, user: currentUser };
+    }
+  }
+  return { ...value._doc, user: currentUser };
+};
 router.get("/list", async (req, res) => {
   try {
-    const currentDate = new Date().toISOString().substring(0, 10);
-    const currentHours = new Date().toISOString().substring(11, 19);
     const user = await User.findOne({ id: req.userId });
     const length = (await Todo.find({})).length;
     if (user.role > 0) {
@@ -75,19 +90,9 @@ router.get("/list", async (req, res) => {
       const start = req.headers.start;
       const todo = await Todo.find({}, {}, { skip: start, limit: limit });
       const list = todo.map(async (value) => {
-        const date = value.deadline.substring(0, 10);
-        const hours = value.deadline.substring(11, 19);
-        const currentUser = await User.findOne({
-          _id: value.user.toString(),
-        }).select("email");
-        if (date < currentDate) {
-          return { ...value._doc, late: true, user: currentUser };
-        } else if (date == currentDate) {
-          if (hours < currentHours) {
-            return { ...value._doc, late: true, user: currentUser };
-          }
-        }
-        return { ...value._doc, user: currentUser };
+        return ListLated(value).then((val) => {
+          return val;
+        });
       });
       if (list.length > 0) {
         res.send({ tasks: await Promise.all(list), count: length });
@@ -105,19 +110,9 @@ router.get("/list", async (req, res) => {
     );
 
     const list = todo.map(async (value, index) => {
-      const date = value.deadline.substring(0, 10);
-      const hours = value.deadline.substring(11, 19);
-      const currentUser = await User.findOne({
-        _id: value.user.toString(),
-      }).select("email");
-      if (date < currentDate) {
-        return { ...value._doc, late: true, user: currentUser };
-      } else if (date == currentDate) {
-        if (hours < currentHours) {
-          return { ...value._doc, late: true, user: currentUser };
-        }
-      }
-      return { ...value._doc, user: currentUser };
+      return ListLated(value).then((val) => {
+        return val;
+      });
     });
     if (list.length > 0) {
       res.send({ tasks: await Promise.all(list), count: length });
