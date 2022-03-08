@@ -88,6 +88,7 @@ router.get("/list", async (req, res) => {
       const limit = req.headers.limit;
       const start = req.headers.start;
       const todo = await Todo.find({}, {}, { skip: start, limit: limit });
+      const length = await Todo.find({});
       const list = todo.map(async (value) => {
         return ListLated(value).then((val) => {
           return val;
@@ -96,7 +97,7 @@ router.get("/list", async (req, res) => {
       if (list.length > 0) {
         res.send({
           tasks: await Promise.all(list),
-          count: (await Promise.all(list)).length - 1,
+          count: length.length,
         });
       } else {
         res.send([]);
@@ -110,6 +111,7 @@ router.get("/list", async (req, res) => {
       {},
       { skip: start, limit: limit }
     );
+    const length = await Todo.find({ user: user._id.toString() });
 
     const list = todo.map(async (value, index) => {
       return ListLated(value).then((val) => {
@@ -119,7 +121,7 @@ router.get("/list", async (req, res) => {
     if (list.length > 0) {
       res.send({
         tasks: await Promise.all(list),
-        count: (await Promise.all(list)).length - 1,
+        count: length.length,
       });
     } else {
       res.send({ tasks: [], count: 0 });
