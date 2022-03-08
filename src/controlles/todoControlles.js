@@ -84,7 +84,6 @@ const ListLated = async (value) => {
 router.get("/list", async (req, res) => {
   try {
     const user = await User.findOne({ id: req.userId });
-    const length = (await Todo.find({})).length;
     if (user.role > 0) {
       const limit = req.headers.limit;
       const start = req.headers.start;
@@ -95,7 +94,10 @@ router.get("/list", async (req, res) => {
         });
       });
       if (list.length > 0) {
-        res.send({ tasks: await Promise.all(list), count: length });
+        res.send({
+          tasks: await Promise.all(list),
+          count: (await Promise.all(list)).length - 1,
+        });
       } else {
         res.send([]);
       }
@@ -115,7 +117,10 @@ router.get("/list", async (req, res) => {
       });
     });
     if (list.length > 0) {
-      res.send({ tasks: await Promise.all(list), count: length });
+      res.send({
+        tasks: await Promise.all(list),
+        count: (await Promise.all(list)).length - 1,
+      });
     } else {
       res.send({ tasks: [], count: 0 });
     }
