@@ -23,12 +23,22 @@ Após finizalizar o clone do repositório, você pode prefirir usar o `yarn` ou 
     `npm install`
     1.1 - Aguarde a instalação de todos os pacotes
 
-2 - Antes de executar, é preciso confirmar o usu do mongoDb, você pode preferir utilizar o que já está incluido no repositório, 
+2 - Antes de executar, é preciso confirmar o osu do mongoDb, você pode preferir utilizar o que já está incluido no repositório, 
 ou criar o seu próprio para fazer seus testes de maneira isolado.
  2.1 - Caso queira criar seu próprio utiliza o site do [Atlas](https://cloud.mongodb.com/)
  2.2 - Se não, basta executar `yarn dev` ou `npm dev` que o projeto será inicializado com o nodemon para pode analisar sua estrutura.
  
- ## Problmas possiveis
+ ## Docker (Opcional)
+ 
+ ### Usar o Dockerfile para criar imagem (Dockerfile) do projeto
+
+```docker build -t node-docker .```
+
+### Rodar um container com a imagem (Dockerfile) do projeto
+
+```docker run --name node-docker-container -p 3000:3000 node-docker```
+ 
+ ## Problemas possiveis
 
 ```bash
 Error: listen EADDRINUSE: address already in use :::3000
