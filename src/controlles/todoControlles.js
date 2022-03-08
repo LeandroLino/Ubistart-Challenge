@@ -110,8 +110,10 @@ router.get("/list", async (req, res) => {
       const currentUser = await User.findOne({
         _id: value.user.toString(),
       }).select("email");
-      if (!(date > currentDate)) {
-        if (!(hours > currentHours)) {
+      if (date < currentDate) {
+        return { ...value._doc, late: true, user: currentUser };
+      } else if (date == currentDate) {
+        if (hours < currentHours) {
           return { ...value._doc, late: true, user: currentUser };
         }
       }
