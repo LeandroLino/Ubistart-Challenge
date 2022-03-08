@@ -1,6 +1,6 @@
 # Ubistart-Challenge
 
-Notion do desenvolvimento: https://www.notion.so/Ubistart-a173c1efa6e24ffe8d5e8b4efb754db4
+[Notion](https://www.notion.so/Ubistart-a173c1efa6e24ffe8d5e8b4efb754db4)
 
 Antes de baixar o projeto por completo, você pode utiliza-lo em uma hospedagem gratuita.
 
