@@ -36,7 +36,7 @@ ou criar o seu próprio para fazer seus testes de maneira isolado.
 
 ### Rodar um container com a imagem (Dockerfile) do projeto
 
-```docker run --name node-docker-container -p 3000:3000 node-docker```
+```docker run --name node-docker-container -p 3000:3000 node-docker``` || ```docker run -p 3000:3000 node-docker ```
  
  ## Problemas possiveis
 
